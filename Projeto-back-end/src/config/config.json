@@ -1,0 +1,10 @@
+{
+  "development": {
+    "username": "root",
+    "password": 1234,
+    "database": "cinema_simples",
+    "host": "localhost",
+    "dialect": "mysql"
+  }
+  
+}
