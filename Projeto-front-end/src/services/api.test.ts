@@ -40,7 +40,7 @@ describe("api service", () => {
 
     await api.get<{ ok: boolean }>("/filmes");
 
-    expect(fetchMock).toHaveBeenCalledWith("http://localhost:3000/filmes", {
+    expect(fetchMock).toHaveBeenCalledWith("https://cinema.local/api/filmes", {
       headers: {
         "Content-Type": "application/json",
         Authorization: "Bearer token-de-teste",
@@ -68,7 +68,7 @@ describe("api service", () => {
     global.fetch = fetchMock;
 
     await expect(api.get("/filmes")).rejects.toThrow(
-      "Nao foi possivel conectar com a API. Verifique se o back-end esta rodando em http://localhost:3000."
+      "Nao foi possivel conectar com a API. Verifique se o cinema.local esta acessivel."
     );
   });
 });
