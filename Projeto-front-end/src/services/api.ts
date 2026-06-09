@@ -1,4 +1,4 @@
-const API_BASE_URL = "http://localhost:3000";
+const API_BASE_URL = "https://cinema.local/api";
 
 type RequestOptions = RequestInit & { headers?: HeadersInit };
 
@@ -22,7 +22,7 @@ async function request<T>(path: string, options: RequestOptions = {}): Promise<T
       ...options,
     });
   } catch {
-    throw new Error("Nao foi possivel conectar com a API. Verifique se o back-end esta rodando em http://localhost:3000.");
+    throw new Error("Nao foi possivel conectar com a API. Verifique se o cinema.local esta acessivel.");
   }
 
   const text = await response.text();
