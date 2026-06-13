@@ -1,0 +1,27 @@
+{
+  "name": "projeto-3-periodo",
+  "version": "1.0.0",
+  "description": "Este projeto é uma aplicação de cinema desenvolvida com frontend, backend, banco de dados MySQL e Nginx como proxy reverso. A aplicação roda em containers Docker, facilitando a configuração do ambiente de desenvolvimento.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prepare": "husky"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nondrack/Projeto-3-periodo.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/nondrack/Projeto-3-periodo/issues"
+  },
+  "homepage": "https://github.com/nondrack/Projeto-3-periodo#readme",
+  "devDependencies": {
+    "@commitlint/cli": "^21.0.2",
+    "@commitlint/config-conventional": "^21.0.2",
+    "husky": "^9.1.7"
+  }
+}

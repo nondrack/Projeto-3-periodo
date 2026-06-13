@@ -1,0 +1,2 @@
+cd Projeto-front-end
+npm run test:e2e
