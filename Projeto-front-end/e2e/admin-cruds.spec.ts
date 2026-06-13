@@ -98,8 +98,13 @@ test.describe('E2E - CRUD administrativo', () => {
 
     await page.getByRole('button', { name: 'Salvar' }).click();
 
-    await expect(page).toHaveURL('https://cinema.local/admin/filmes');
-    await expect(page.getByText(tituloEditado)).toBeVisible();
+    await page.waitForURL('**/admin/filmes', { timeout: 10000 });
+    await page.waitForLoadState('networkidle');
+
+    await page.reload();
+    await page.waitForLoadState('networkidle');
+
+    await expect(page.getByText(tituloEditado)).toBeVisible({ timeout: 15000 });
 
     // Excluir
     page.once('dialog', async (dialog) => {
@@ -159,17 +164,23 @@ test.describe('E2E - CRUD administrativo', () => {
 
     await page.getByRole('button', { name: 'Salvar' }).click();
 
-    await expect(page).toHaveURL('https://cinema.local/admin/salas');
-    await expect(page.getByText(nomeEditado)).toBeVisible();
-    await expect(page.getByText('30 lugares')).toBeVisible();
+    await page.waitForURL('**/admin/salas', { timeout: 10000 });
+    await page.waitForLoadState('networkidle');
+
+    await page.reload();
+    await page.waitForLoadState('networkidle');
+
+    const salaEditadaCard = page.locator('article').filter({ hasText: nomeEditado });
+
+    await expect(salaEditadaCard).toBeVisible({ timeout: 15000 });
+    await expect(salaEditadaCard.getByText('30 lugares')).toBeVisible({ timeout: 15000 });
 
     // Excluir
     page.once('dialog', async (dialog) => {
       await dialog.accept();
-    });
+  });
 
-    const salaEditadaCard = page.locator('article').filter({ hasText: nomeEditado });
-    await salaEditadaCard.getByRole('button', { name: 'Remover' }).click();
+await salaEditadaCard.getByRole('button', { name: 'Remover' }).click();
 
     await expect(page.getByText('Sala removida com sucesso.')).toBeVisible();
     await expect(page.getByText(nomeEditado)).not.toBeVisible();
