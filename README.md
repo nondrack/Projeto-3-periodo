@@ -108,3 +108,58 @@ O Nginx também possui cabeçalhos básicos de segurança, como:
 ## Observações
 
 Caso apareça um aviso de certificado no navegador, clique em “Avançado” e depois em “Continuar para cinema.local”. Isso acontece porque o projeto utiliza certificado local para HTTPS.
+
+## Testes end-to-end
+
+O projeto possui testes end-to-end com Playwright para validar os principais fluxos da aplicação.
+
+Os testes implementados cobrem:
+
+* Login com sucesso
+* Login com falha
+* Cadastro de usuário com sucesso
+* Cadastro de usuário com falha
+* CRUD completo de filmes
+* CRUD completo de salas
+
+Para executar os testes, o Docker precisa estar rodando e a aplicação deve estar disponível em:
+
+```text
+https://cinema.local
+```
+
+Depois, entre na pasta do frontend:
+
+```bash
+cd Projeto-front-end
+```
+
+Execute:
+
+```bash
+npm run test:e2e
+```
+
+O resultado esperado é:
+
+```text
+6 passed
+```
+
+## Husky e validações automáticas
+
+O projeto utiliza Husky para automatizar validações antes dos commits e pushs.
+
+Foram configurados os seguintes hooks:
+
+* `pre-commit`: executa os testes E2E antes de permitir um commit.
+* `pre-push`: executa os testes E2E antes de enviar alterações para o GitHub.
+* `commit-msg`: valida se a mensagem do commit segue o padrão Conventional Commits.
+
+Exemplo de mensagem válida:
+
+```bash
+git commit -m "test(e2e): adiciona testes de login"
+```
+
+Isso ajuda a manter a qualidade do projeto e evita que alterações sejam enviadas sem passar pelos testes.
