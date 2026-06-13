@@ -1,3 +1,21 @@
+# Comandos para o professor avaliar a rubrica
+
+Verifica se os containers estão rodando e se apenas o Nginx está exposto externamente nas portas 80 e 443.
+      docker compose ps
+
+Verifica se o HTTPS está funcionando e se o Nginx está retornando os cabeçalhos básicos de segurança.
+      curl.exe -k -I https://cinema.local
+
+Verifica se o acesso via HTTP está sendo redirecionado automaticamente para HTTPS.
+      curl.exe -I http://cinema.local
+
+Executa os testes end-to-end com Playwright, validando login, cadastro de usuário e os CRUDs de filmes e salas.
+      cd Projeto-front-end
+      npm run test:e2e
+
+Verifica se o repositório possui as branches do GitFlow, como main, dev e branches de feature.
+      git branch -r
+
 # Projeto Cinema - 3º Período
 
 Este projeto é uma aplicação de cinema desenvolvida com frontend, backend, banco de dados MySQL e Nginx como proxy reverso. A aplicação roda em containers Docker, facilitando a configuração do ambiente de desenvolvimento.
