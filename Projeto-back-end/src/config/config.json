@@ -1,10 +1,6 @@
 {
   "development": {
-    "username": "root",
-    "password": 1234,
-    "database": "cinema_simples",
-    "host": "localhost",
+    "use_env_variable": "DATABASE_URL",
     "dialect": "mysql"
   }
-  
 }
