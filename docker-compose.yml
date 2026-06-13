@@ -8,8 +8,6 @@ services:
       MYSQL_DATABASE: ${MYSQL_DATABASE}
       MYSQL_USER: ${MYSQL_USER}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
-    ports:
-      - "3307:3306"
     volumes:
       - mysql-data:/var/lib/mysql
       - ./Projeto-back-end/banco.sql:/docker-entrypoint-initdb.d/banco.sql:ro
@@ -21,8 +19,6 @@ services:
       context: ./Projeto-back-end
       dockerfile: Dockerfile
     container_name: back_service
-    ports:
-      - "3000:3000"
     environment:
       PORT: ${BACKEND_PORT}
       DB_HOST: ${DB_HOST}
