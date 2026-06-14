@@ -27,10 +27,10 @@ class SalasController {
 
   static async findAll(req: Request, res: Response) {
     if (req.query.page === undefined && req.query.limit === undefined) {
-      return res.status(200).json(await Sala.findAll());
+      return res.status(200).json(await Sala.findAll({ order: [["id_sala", "DESC"]] }));
     }
     const { page, limit, offset } = SalasController.parsePagination(req.query);
-    const { rows, count } = await Sala.findAndCountAll({ limit, offset });
+    const { rows, count } = await Sala.findAndCountAll({ limit, offset, order: [["id_sala", "DESC"]] });
     return res.status(200).json({
       data: rows,
       pagination: { page, limit, total: count, totalPages: Math.ceil(count / limit) },
