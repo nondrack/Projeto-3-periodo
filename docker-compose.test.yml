@@ -1,8 +1,9 @@
+version: '3.8'
 services:
   database:
     image: mysql:9.1.0
-    container_name: meu-mysql
-    restart: always
+    container_name: meu-mysql-test
+    restart: unless-stopped
     env_file:
       - .env
     environment:
@@ -10,10 +11,8 @@ services:
       MYSQL_DATABASE: ${DB_NAME}
       MYSQL_USER: ${DB_USER}
       MYSQL_PASSWORD: ${DB_PASS}
-    ports:
-      - "3307:3306"
     volumes:
-      - mysql-data:/var/lib/mysql
+      - mysql-test-data:/var/lib/mysql
       - ./Projeto-back-end/banco.sql:/docker-entrypoint-initdb.d/banco.sql:ro
     networks:
       - app-network
@@ -22,18 +21,16 @@ services:
     build:
       context: ./Projeto-back-end
       dockerfile: Dockerfile
-    container_name: back_service
+    container_name: back_service_test
     env_file:
       - .env.example
     environment:
       PORT: ${PORT:-3000}
-      DB_HOST: ${DB_HOST:-database}
+      DB_HOST: database
       DB_PORT: ${DB_PORT:-3306}
       DB_NAME: ${DB_NAME}
       DB_USER: ${DB_USER}
       DB_PASS: ${DB_PASS}
-    volumes:
-      - ./Projeto-back-end/src:/app/src
     depends_on:
       - database
     networks:
@@ -44,15 +41,12 @@ services:
     build:
       context: ./Projeto-front-end
       dockerfile: Dockerfile
-    container_name: frontend-container
+    container_name: frontend-container-test
     environment:
       - HOST=0.0.0.0
       - PORT=3000
       - CHOKIDAR_USEPOLLING=true
       - REACT_APP_API_URL=https://cinema.local/api
-    volumes:
-      - ./Projeto-front-end/src:/app/src
-      - ./Projeto-front-end/public:/app/public
     depends_on:
       - backend
     networks:
@@ -61,7 +55,7 @@ services:
 
   nginx:
     image: nginx:alpine
-    container_name: nginx-proxy
+    container_name: nginx-proxy-test
     ports:
       - "80:80"
       - "443:443"
@@ -76,7 +70,7 @@ services:
     restart: on-failure
 
 volumes:
-  mysql-data:
+  mysql-test-data:
     driver: local
 
 networks:

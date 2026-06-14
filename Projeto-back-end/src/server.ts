@@ -41,9 +41,29 @@ async function ensureUsuariosCpfColumn() {
   }
 }
 
+function sleep(ms: number) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+async function waitForDatabase(retries = 10, delayMs = 3000) {
+  for (let attempt = 1; attempt <= retries; attempt += 1) {
+    try {
+      await sequelize.authenticate();
+      console.log('Banco de dados disponível após', attempt, 'tentativa(s).');
+      return;
+    } catch (error) {
+      console.warn(`Tentativa ${attempt}/${retries} falhou: o banco ainda não está pronto.`);
+      if (attempt === retries) {
+        throw error;
+      }
+      await sleep(delayMs);
+    }
+  }
+}
+
 async function startServer() {
   try {
-    await sequelize.authenticate();
+    await waitForDatabase();
     await ensureUsuariosCpfColumn();
     await sequelize.sync();
 
