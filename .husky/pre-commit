@@ -1,4 +1,6 @@
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
 
-npx --no-install commitlint --edit "$HUSKY_GIT_PARAMS"
+# Commit message linting runs in .husky/commit-msg
+# Add pre-commit checks here, for example:
+# npm test
