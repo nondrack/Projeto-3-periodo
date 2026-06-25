@@ -1,10 +1,10 @@
 {
   "development": {
-    "username": "root",
-    "password": 1234,
-    "database": "cinema_simples",
-    "host": "localhost",
+    "username": "${DB_USER}",
+    "password": "${DB_PASS}",
+    "database": "${DB_NAME}",
+    "host": "${DB_HOST}",
     "dialect": "mysql"
-  }
-  
+  },
+  "_deprecated": "Este arquivo foi DESCONTINUADO. Use variáveis de ambiente em database/index.ts em vez disso. Ver SECURITY.md para mais detalhes."
 }

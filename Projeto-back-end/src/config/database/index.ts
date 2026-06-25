@@ -2,29 +2,30 @@ import { Sequelize } from 'sequelize';
 import "dotenv/config";
 
 // Define the database connection configuration
+const dbName = process.env.DB_NAME || process.env.MYSQL_DATABASE;
+const dbUser = process.env.DB_USER || process.env.MYSQL_USER;
+const dbPass = process.env.DB_PASS || process.env.MYSQL_PASSWORD;
+const dbHost = process.env.DB_HOST || process.env.MYSQL_HOST || 'localhost';
+const dbPort = parseInt(process.env.DB_PORT || process.env.MYSQL_PORT || '3306');
+
+if (!dbName || !dbUser || !dbPass) {
+  throw new Error('Database credentials are required. Set DB_NAME, DB_USER, and DB_PASS in the environment.');
+}
+
 const sequelize = new Sequelize(
-  process.env.DB_NAME || process.env.MYSQL_DATABASE || 'music_app', // Database name
-  process.env.DB_USER || process.env.MYSQL_USER || 'root',             // Database user
-  process.env.DB_PASS || process.env.MYSQL_PASSWORD || '123456',     // Database password
+  dbName,
+  dbUser,
+  dbPass,
   {
-    host: process.env.DB_HOST || process.env.MYSQL_HOST || 'localhost',         // Use the service name 'mysql' as the host
-    port: parseInt(process.env.DB_PORT || process.env.MYSQL_PORT || '3306'), // Default MySQL port (parsed as a number)
-    dialect: 'mysql',                                // Database dialect
-    logging: console.log,                            // Enable logging (optional)
+    host: dbHost,
+    port: dbPort,
+    dialect: 'mysql',
+    logging: console.log,
     dialectOptions: {
-      ssl: false, // Disable SSL
+      ssl: false,
     },
   }
 );
-
-// Test the connection
-sequelize.authenticate()
-  .then(() => {
-    console.log('Connection to the database has been established successfully.');
-  })
-  .catch((error: Error) => {
-    console.error('Unable to connect to the database:', error);
-  });
 
 export default sequelize;
 
