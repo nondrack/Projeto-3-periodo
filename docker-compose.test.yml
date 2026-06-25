@@ -23,7 +23,7 @@ services:
       dockerfile: Dockerfile
     container_name: back_service_test
     env_file:
-      - .env.example
+      - .env
     environment:
       PORT: ${PORT:-3000}
       DB_HOST: database
