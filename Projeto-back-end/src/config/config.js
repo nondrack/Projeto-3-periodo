@@ -1,9 +1,10 @@
 module.exports = {
   development: {
-    username: 'root',
-    password: '1234',
-    database: 'filmes_2026',
-    host: 'localhost',
-    dialect: 'mysql', // ou mysql
+    username: 'app',
+    password: '123456',
+    database: 'cinema_db',
+    host: '127.0.0.1',
+    port: 3307,
+    dialect: 'mysql',
   },
 };

@@ -26,10 +26,12 @@
   "homepage": "https://github.com/nondrack/Projeto-back-end#readme",
   "dependencies": {
     "@types/jsonwebtoken": "^9.0.10",
+    "@types/multer": "^2.2.0",
     "bcryptjs": "^3.0.3",
     "dotenv": "^17.3.1",
     "express": "^5.2.1",
     "jsonwebtoken": "^9.0.3",
+    "multer": "^2.2.0",
     "mysql2": "^3.18.2",
     "pg": "^8.20.0",
     "pg-hstore": "^2.3.4",

@@ -3,16 +3,16 @@ import "dotenv/config";
 
 // Define the database connection configuration
 const sequelize = new Sequelize(
-  process.env.DB_NAME || process.env.MYSQL_DATABASE || 'music_app', // Database name
-  process.env.DB_USER || process.env.MYSQL_USER || 'root',             // Database user
-  process.env.DB_PASS || process.env.MYSQL_PASSWORD || '123456',     // Database password
+  process.env.DB_NAME || process.env.MYSQL_DATABASE || 'cinema_db',
+  process.env.DB_USER || process.env.MYSQL_USER || 'app',
+  process.env.DB_PASS || process.env.MYSQL_PASSWORD || '123456',
   {
-    host: process.env.DB_HOST || process.env.MYSQL_HOST || 'localhost',         // Use the service name 'mysql' as the host
-    port: parseInt(process.env.DB_PORT || process.env.MYSQL_PORT || '3306'), // Default MySQL port (parsed as a number)
-    dialect: 'mysql',                                // Database dialect
-    logging: console.log,                            // Enable logging (optional)
+    host: process.env.DB_HOST || process.env.MYSQL_HOST || '127.0.0.1',
+    port: parseInt(process.env.DB_PORT || process.env.MYSQL_PORT || '3307'),
+    dialect: 'mysql',
+    logging: false,
     dialectOptions: {
-      ssl: false, // Disable SSL
+      ssl: false,
     },
   }
 );

@@ -1,4 +1,7 @@
 import express, { NextFunction, Request, Response, Router } from 'express';
+import fs from 'fs';
+import path from 'path';
+import multer from 'multer';
 import AuthController from './controllers/auth.controller';
 import UsersController from './controllers/users.controller';
 import { requireAdmin, requireAuth } from './middlewares/auth.middleware';
@@ -10,8 +13,35 @@ import AssentosController from './controllers/assentos.controller';
 import SessoesController from './controllers/sessoes.controller';
 import IngressosController from './controllers/ingressos.controller';
 import PagamentosController from './controllers/pagamentos.controller';
+import { buildSafeFilename, MAX_IMAGE_SIZE, validateImageFile } from './utils/upload';
 
 const app = express();
+const uploadDir = path.join(__dirname, '..', 'uploads');
+
+if (!fs.existsSync(uploadDir)) {
+    fs.mkdirSync(uploadDir, { recursive: true });
+}
+
+const storage = multer.diskStorage({
+    destination: (_req, _file, cb) => cb(null, uploadDir),
+    filename: (_req, file, cb) => {
+        const safe = buildSafeFilename(file.originalname, uploadDir);
+        cb(null, safe);
+    },
+});
+
+const upload = multer({
+    storage,
+    limits: { fileSize: MAX_IMAGE_SIZE },
+    fileFilter: (_req, file, cb) => {
+        const validationError = validateImageFile(file);
+        if (validationError) {
+            return cb(validationError);
+        }
+        cb(null, true);
+    },
+});
+
 app.use((req, res, next) => {
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
@@ -22,6 +52,7 @@ app.use((req, res, next) => {
     next();
 });
 app.use(express.json());
+app.use('/uploads', express.static(uploadDir));
 
 const router: Router = Router();
 
@@ -58,6 +89,18 @@ router.get('/me/compras', requireAuth, ComprasController.findMyPurchases);
 
 router.get('/filmes', requireAuth, requireAdmin, FilmesController.findAll);
 router.post('/filmes', requireAuth, requireAdmin, FilmesController.create);
+router.post('/filmes/upload-poster', requireAuth, requireAdmin, upload.single('imagem'), (req: Request, res: Response) => {
+    if (!req.file) {
+        return res.status(400).json({ message: 'Nenhuma imagem foi enviada.' });
+    }
+
+    const fileUrl = `/uploads/${req.file.filename}`;
+    return res.status(201).json({
+        message: 'Imagem enviada com sucesso.',
+        fileUrl,
+        filename: req.file.filename,
+    });
+});
 router.get('/filmes/:id', requireAuth, requireAdmin, FilmesController.getById);
 router.put('/filmes/:id', requireAuth, requireAdmin, FilmesController.update);
 router.delete('/filmes/:id', requireAuth, requireAdmin, FilmesController.delete);
